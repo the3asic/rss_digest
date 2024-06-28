@@ -1,0 +1,29 @@
+# Directories to ignore
+/articles_text/
+/high_rated_articles/
+/article_summaries/
+/thumbnails/
+/archives/
+/output/
+/venv/
+
+# Files to ignore
+articles.csv
+feeds.opml
+articles_ratings.json
+article_summaries.json
+newsletter.html
+titles_and_links.txt
+newsletter.png
+
+# Python-specific ignores
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env

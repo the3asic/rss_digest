@@ -1,0 +1,17 @@
+beautifulsoup4==4.12.3
+certifi==2024.6.2
+charset-normalizer==3.3.2
+feedparser==6.0.11
+idna==3.7
+requests==2.32.3
+sgmllib3k==1.0.0
+soupsieve==2.5
+urllib3==2.2.2
+youtube-transcript-api==0.6.2
+opencc-python-reimplemented
+imgkit
+pangu
+selenium
+Pillow
+python-dotenv
+Jinja2

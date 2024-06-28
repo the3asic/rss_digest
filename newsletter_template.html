@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <style>
+        body {
+            font-family: {{ font }};
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .article {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .article img {
+            max-width: 100%;
+            height: auto;
+        }
+        .article h2 {
+            color: #3498db;
+        }
+        .article a {
+            color: #e74c3c;
+            text-decoration: none;
+        }
+        .article a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .article {
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ title }}</h1>
+    {% for article in articles %}
+    <div class="article">
+        <h2>{{ article.chinese_title }}</h2>
+        {% if article.thumbnail %}
+        <img src="{{ article.thumbnail }}" alt="{{ article.chinese_title }}">
+        {% endif %}
+        <p>{{ article.chinese_summary }}</p>
+        <!-- <a href="{{ article.url }}" target="_blank">阅读原文</a> -->
+    </div>
+    {% endfor %}
+</body>
+</html>
