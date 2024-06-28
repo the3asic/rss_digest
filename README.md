@@ -27,7 +27,7 @@ pip install -r requirements.txt
 在项目根目录下创建一个 `.env` 文件，并添加以下内容：
 
 ```
-CUSTOM_API_URL=your_custom_api_url  # 自定义 API 的 URL，用于文章评分和摘要生成
+CUSTOM_API_URL=https://api.openai.com/v1/chat/completions  # 自定义 OpenAI 兼容 API 的 URL，用于文章评分和摘要生成
 API_KEY=your_api_key  # 访问自定义 API 的密钥
 RATING_CRITERIA=your_rating_criteria  # 文章评分的标准或规则
 TOP_ARTICLES=5  # 选择评分最高的前几篇文章
@@ -59,6 +59,8 @@ python3 main.py
 
 - 请确保在运行脚本前已正确配置环境变量。
 - 运行过程中可能需要网络连接以访问 RSS 源和自定义 API。
+- 默认使用 OpenAI 的 GPT-3.5-Turbo 模型进行评分，如果需要使用其他模型，请修改 `rating-openai.py` 中的 `model` 变量。
+- 默认使用 OpenAI 的 GPT-4o 模型进行摘要生成，如果需要使用其他模型，请修改 `summerize-high-rated.py` 中的 `model` 变量。
 
 ## 贡献
 
