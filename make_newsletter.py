@@ -38,9 +38,13 @@ def get_first_image(url):
         response = requests.get(url, timeout=10)
         response.raise_for_status()
         soup = BeautifulSoup(response.content, 'html.parser')
-        first_image = soup.find('img')
-        if first_image and 'src' in first_image.attrs:
-            return first_image['src']
+        images = soup.find_all('img')
+        for img in images:
+            if 'src' in img.attrs:
+                src = img['src']
+                # Filter out common ad-related keywords
+                if not any(keyword in src.lower() for keyword in ['ad', 'banner', 'sponsor']):
+                    return src
     except requests.RequestException:
         pass
     return None
@@ -112,6 +116,9 @@ def main():
                 data['thumbnail'] = None
         else:
             data['thumbnail'] = None
+
+        # Add source to data
+        data['source'] = urlparse(url).netloc
 
     # Get title and font from environment variables
     title = os.getenv('NEWSLETTER_TITLE', '文章摘要通讯')

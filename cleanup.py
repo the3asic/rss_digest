@@ -49,7 +49,8 @@ def main():
         "article_summaries.json",
         "articles.csv",
         "newsletter.html",
-        "titles_and_links.txt"
+        "titles_and_links.txt",
+        "newsletter.png"  # Added newsletter.png to the list
     ]
 
     # Create archives directory

@@ -6,7 +6,7 @@ def run_script(script_name):
     start_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
     print(f"Starting {script_name} at {start_time}")
     
-    process = subprocess.Popen(['python', script_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    process = subprocess.Popen(['python', script_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding='utf-8', errors='replace')
     
     while True:
         output = process.stdout.readline()

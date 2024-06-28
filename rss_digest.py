@@ -69,6 +69,12 @@ def fetch_all_articles(urls):
 
 def fetch_html_content(url):
     try:
+        # Ensure the URL has a scheme
+        if url.startswith('//'):
+            url = 'http:' + url  # Add 'http:' prefix to URLs starting with '//'
+        elif not url.startswith(('http://', 'https://')):
+            url = 'http://' + url
+        
         # 发送 HTTP 请求获取 HTML 内容
         response = requests.get(url, timeout=10)
         response.raise_for_status()
@@ -108,7 +114,7 @@ def save_article_content(title, content, url, date, folder, keywords):
     filename = f"{title}.txt".replace('/', '_').replace('\\', '_')
     filepath = os.path.join(folder, filename)
     try:
-        # ��文章内容写入文本文件
+        # 文章内容写入文本文件
         with open(filepath, 'w', encoding='utf-8') as file:
             file.write(f"Title: {title}\n")
             file.write(f"URL: {url}\n")
