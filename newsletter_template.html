@@ -55,6 +55,7 @@
         <img src="{{ article.thumbnail }}" alt="{{ article.chinese_title }}">
         {% endif %}
         <p>{{ article.chinese_summary }}</p>
+        <p>Source: {{ article.source }}</p>
         <!-- <a href="{{ article.url }}" target="_blank">阅读原文</a> -->
     </div>
     {% endfor %}

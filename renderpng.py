@@ -1,6 +1,5 @@
 import os
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from playwright.sync_api import sync_playwright
 from PIL import Image
 from dotenv import load_dotenv
 
@@ -12,30 +11,34 @@ WIDTH = int(os.getenv('WIDTH', 800))
 DEVICE_PIXEL_RATIO = 2  # Set device pixel ratio for HiDPI
 
 def render_html_to_png(html_file_path, output_png_path):
-    # Set up Selenium with headless Chrome
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")
-    chrome_options.add_argument("--disable-gpu")
-    chrome_options.add_argument(f"--window-size={WIDTH * DEVICE_PIXEL_RATIO},{1000 * DEVICE_PIXEL_RATIO}")  # Set initial window size
-
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.get(f"file://{os.path.abspath(html_file_path)}")
-
-    # Adjust the window size to the content
-    height = driver.execute_script("return document.body.scrollHeight")
-    driver.set_window_size(WIDTH * DEVICE_PIXEL_RATIO, height * DEVICE_PIXEL_RATIO)
-
-    # Set device pixel ratio
-    driver.execute_script(f"document.body.style.zoom='{DEVICE_PIXEL_RATIO * 100}%'")
-
-    # Take screenshot
-    screenshot = driver.get_screenshot_as_png()
-    driver.quit()
-
-    # Save the screenshot as a PNG file
+    with sync_playwright() as p:
+        browser = p.chromium.launch()
+        page = browser.new_page(device_scale_factor=DEVICE_PIXEL_RATIO)
+        
+        # Set viewport size
+        page.set_viewport_size({"width": WIDTH, "height": 1000})
+        
+        # Navigate to the HTML file
+        page.goto(f"file://{os.path.abspath(html_file_path)}")
+        
+        # Wait for any animations or dynamic content to load
+        page.wait_for_load_state("networkidle")
+        
+        # Get the full height of the page
+        height = page.evaluate("document.documentElement.scrollHeight")
+        
+        # Update viewport to match full page height
+        page.set_viewport_size({"width": WIDTH, "height": height})
+        
+        # Capture screenshot
+        screenshot = page.screenshot(full_page=True)
+        
+        browser.close()
+    
+    # Save the screenshot
     with open(output_png_path, 'wb') as f:
         f.write(screenshot)
-
+    
     # Optionally, crop the image to remove any extra space
     image = Image.open(output_png_path)
     image = image.crop((0, 0, WIDTH * DEVICE_PIXEL_RATIO, height * DEVICE_PIXEL_RATIO))
