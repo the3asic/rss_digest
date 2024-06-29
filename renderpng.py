@@ -21,6 +21,13 @@ def render_html_to_png(html_file_path, output_png_path):
         # Navigate to the HTML file
         page.goto(f"file://{os.path.abspath(html_file_path)}")
         
+        # Add padding and increase font size
+        page.evaluate("""() => {
+            document.body.style.padding = '40px';
+            document.body.style.fontSize = '24px';
+            document.body.style.boxSizing = 'border-box';
+        }""")
+        
         # Wait for any animations or dynamic content to load
         page.wait_for_load_state("networkidle")
         
